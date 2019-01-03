@@ -13,6 +13,14 @@ var ArticleSchema = new Schema({
         type: String,
         required: true
     },
+    author: {
+        type: String,
+        required: true
+    },
+    published: {
+        type: String,
+        required: true
+    },
     note: {
         type: Schema.Types.ObjectId,
         ref: "Note"
@@ -20,3 +28,8 @@ var ArticleSchema = new Schema({
 })
 var Article = mongoose.model("Article", ArticleSchema)
 module.exports = Article
+
+// notes: [{
+//     type: Schema.Types.ObjectId,
+//     ref: "Note"
+// }]

@@ -15,18 +15,14 @@ app.get("/scrape", function(req, res) {
         var $ = cheerio.load(response.data)
         $("div.gm-article-preview-header").each(function(i, element) {
             var result = {}
-            result.title = $(this)
-                .find("h1")
-                .text()
-            result.link = $(this)
-                .find("a")
-                .attr("href")
-            result.summary = $(this)
-                .find("div.gm-article-preview-excerpt")
-                .text()
-            console.log(title)
-            console.log(link)
-            console.log(summary)
+            result.title = $(this).find("h1").text()
+            result.link = $(this).find("a").attr("href")
+            result.summary = $(this).find("div.gm-article-preview-excerpt").text()
+            result.author = $(this).find("span.author").text()
+            result.published = $(this).find("span.date-published").text()
+            console.log(result.title)
+            console.log(result.link)
+            console.log(result.summary)
             db.Article.create(result)
                 .then(function(dbArticle){
                     console.log(dbArticle)
@@ -72,3 +68,5 @@ app.post("/articles/:id", function(req, res) {
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!")
 })
+
+//{ $push:{notes: dbNote._id} }
