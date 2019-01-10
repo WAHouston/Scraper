@@ -1,4 +1,5 @@
 var express = require("express")
+var exphbs = require("express-handlebars")
 var mongoose = require("mongoose")
 var cheerio = require("cheerio")
 var axios = require("axios")
@@ -10,6 +11,11 @@ mongoose.connect(MONGODB_URI)
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(express.static("public"))
+app.engine("handlebars", exphbs({defaultLayout:"main", partialsDir:__dirname + "/views/partials"}))
+app.set("view engine", "handlebars")
+app.get("/", function(req, res) {
+    res.render("index")
+})
 app.get("/scrape", function(req, res) {
     axios.get("https://www.coolstuffinc.com/").then(function(response) {
         var $ = cheerio.load(response.data)
@@ -68,5 +74,3 @@ app.post("/articles/:id", function(req, res) {
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!")
 })
-
-//{ $push:{notes: dbNote._id} }

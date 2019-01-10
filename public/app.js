@@ -1,10 +1,17 @@
-$.getJSON("/articles", function(data) {
-    for (var i = 0; i < data.length; i++) {
-        $("#articles").append("<p data-id='" + data[i]._id + "' class='headline'>" + data[i].title + "</p>")
-        $("#articles").append("<p data-id='" + data[i]._id + "' class='byline'>" + data[i].author + " " + data[i].published + "</p>")
-        $("#articles").append("<p data-id='" + data[i]._id + "' class='description'>" + data[i].summary +"</p>")
-        $("#articles").append("<a data-id='" + data[i]._id + "' href='https://www.coolstuffinc.com" + data[i].link + "'><i>https://www.coolstuffinc.com" + data[i].link + "<i></a><hr />")
-    }
+function displayArticles() {
+    $("#articles").empty()
+    $.getJSON("/articles", function(data) {
+        for (var i = 0; i < data.length; i++) {
+            $("#articles").append("<p data-id='" + data[i]._id + "' class='headline'>" + data[i].title + "</p>")
+            $("#articles").append("<p data-id='" + data[i]._id + "' class='byline'>" + data[i].author + " | " + data[i].published + "</p>")
+            $("#articles").append("<p data-id='" + data[i]._id + "' class='description'>" + data[i].summary +"</p>")
+            $("#articles").append("<a data-id='" + data[i]._id + "' href='https://www.coolstuffinc.com" + data[i].link + "'><i>https://www.coolstuffinc.com" + data[i].link + "<i></a><hr />")
+        }
+    })
+}
+displayArticles()
+$("#scrape-btn").on("click", function(){
+    $.get("/scrape").then(displayArticles)
 })
 $(document).on("click", "p", function() {
     $("#notes").empty()
